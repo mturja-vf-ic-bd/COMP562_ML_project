@@ -6,8 +6,8 @@ import time
 def train(train_loader, model, optimizer, scheduler, epoch):
     scheduler.step()
     model.train()
-    for name, param in model.named_parameters():
-        print(name, type(param.data), param.size())
+    # for name, param in model.named_parameters():
+    #     print(name, type(param.data), param.size())
     start = time.time()
     train_loss, n_samples = 0, 0
     for batch_idx, data in enumerate(train_loader):
