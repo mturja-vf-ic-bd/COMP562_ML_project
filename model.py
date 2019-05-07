@@ -77,10 +77,15 @@ class GCN(nn.Module):
         self.gconv = SelectiveSequential(layers)
 
         # Fully connected layers
-        if args.pool == 'k-max':
-            n_conv_out = sum(filters) * args.k
-        else:
+        if args.multi_scale:
             n_conv_out = sum(filters)
+        else:
+            n_conv_out = filters[-1]
+
+        if args.pool == 'k-max':
+            n_conv_out = n_conv_out * args.k
+        else:
+            n_conv_out = n_conv_out
         fc = []
         if dropout > 0:
             fc.append(nn.Dropout(p=dropout))
@@ -97,11 +102,15 @@ class GCN(nn.Module):
     def forward(self, data):
         conv_x = self.gconv(data)
         batch_size, n_nodes = conv_x[0].shape[:2]
-        if args.pool == 'max':
+        # For multi-scale concatenate the output of all the conv layers
+        if args.multi_scale:
             x = torch.cat(conv_x, dim=2)
+        else:
+            x = conv_x[-1]
+
+        if args.pool == 'max':
             x = torch.max(x, dim=1)[0].squeeze()
         elif args.pool == 'k-max':
-            x = torch.cat(conv_x, dim=2)
             x = x.topk(args.k, sorted=True, dim=1)[0]
             x = x.view(batch_size, 1, -1).squeeze()
         elif args.pool == 'attentive':

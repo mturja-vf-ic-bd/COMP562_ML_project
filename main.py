@@ -19,6 +19,7 @@ def setup():
 
 
 def main():
+    print('settings: ', args)
     setup()
     rnd_state = np.random.RandomState(args.seed)
 
