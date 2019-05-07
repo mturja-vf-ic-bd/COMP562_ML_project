@@ -2,7 +2,7 @@
 import argparse
 
 parser = argparse.ArgumentParser(description='Graph Convolutional Networks')
-parser.add_argument('-D', '--dataset', type=str, default='ENZYMES')
+parser.add_argument('-D', '--dataset', type=str, default='PROTEINS')
 parser.add_argument('--lr', type=float, default=0.005, help='learning rate')
 parser.add_argument('--lr_decay_steps', type=str, default='25,35', help='learning rate')
 parser.add_argument('--wd', type=float, default=1e-4, help='weight decay')
@@ -20,8 +20,8 @@ parser.add_argument('-c', '--use_cont_node_attr', action='store_true', default=F
                     help='use continuous node attributes in addition to discrete ones')
 parser.add_argument('-fl', '--n_folds', type=int, default=5,
                     help='number of test folds in cross-validation')
-parser.add_argument('-p', '--pool', type=str, default='max', help='options: max/attentive/k-max')
-parser.add_argument('-k', '--k', type=int, default=5, help='For k-max pooling')
+parser.add_argument('-p', '--pool', type=str, default='k-max', help='options: max/attentive/k-max')
+parser.add_argument('-k', '--k', type=int, default=10, help='For k-max pooling')
 parser.add_argument('-ms', '--multi_scale', type=bool, default=False, help='True to enable multi-scale features')
 args = parser.parse_args()
 args.filters = list(map(int, args.filters.split(',')))
