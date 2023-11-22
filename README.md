@@ -8,7 +8,7 @@ This is the final project for the Machine Learning course COMP562.001.SP19. The 
 The building block of our network is a graph convolution layer introduced in [1]. This layer incorporates 
 neighborhood information into each node to update it's feature. We have used several these GCN layers to
 generate feature at different scales. Then we concatenate the output from each of these layers to build a
-multi-scale representation of the node features. To go from node level feature to graph level feature we used
+multi-scale representation of the node features. This concatenation is basically skip connections that help the gradient flow to the earlier GCN layers to solve oversmooting probelm. To go from node level feature to graph level feature we used
 two different pooling mechanism -- *Max Pooling* and *k-max Pooling*.
 
 
